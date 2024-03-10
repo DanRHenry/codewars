@@ -17,19 +17,20 @@ Examples (input --> output):
 
 // return masked string
 function maskify(cc) {
-    let output = "";
-    for (let i = 0; i < output.length; i ++) {
-        console.log(i)
-        if (output.length - i <= 4) {
-            output += cc[i]
-            // output.unshift(cc[i])
-        }
-        else {
-            // output.unshift("X")
-            output += 'X'
-        }
-    }
-    console.log("output:",output)
-}
+  let output = [];
+// Iterate over the cc, converting to string
+  for (let i = cc.toString().length - 1; i >= 0; i--) {
 
-maskify(12345678)
+// Unshift the last four numbers to the output array
+    if (i >= cc.toString().length - 4) {
+      output.unshift(cc.toString()[i]);
+
+// Unshift the remaining numbers to the output array
+    } else {
+      output.unshift("#");
+    }
+  }
+
+// Return the output as a string
+  return output.join("");
+};
