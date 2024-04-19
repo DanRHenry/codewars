@@ -20,7 +20,7 @@ function count(string) {
         output[sorted[i]] ++
     }
   }
-  console.log(output)
+  // console.log(output)
   return output;
 }
 
