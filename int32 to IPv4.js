@@ -28,9 +28,9 @@ function int32ToIp(int32) {
   for (let i = 0; i < base16.length; i += 2) {
     output.push(parseInt(base16[i] + base16[i + 1], 16));
   }
-  if (output[0] == 0) {
-    output = [0, 0, 0, 0];
-  }
+  // if (output[0] == 0) {
+  //   output = [0, 0, 0, 0];
+  // }
   console.log(output.join("."));
   return output.join(".");
 }

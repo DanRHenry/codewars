@@ -30,3 +30,5 @@ function findNb(m) {
         return -1
     }
 }
+
+findNb(1071225)
