@@ -52,124 +52,155 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 † For incrementing sequences, 0 should come after 9, and not before 1, as in 7890.
 ‡ For decrementing sequences, 0 should come after 1, and not before 9, as in 3210.
 
-*/
-  let numString = number.toString();
+*/  let numString = number.toString();
+
   if (numString.length >= 3) {
+        // function testForSequentialOrPalindrome() {
+          let flag = {};
+
+          for (
+            let i = 0, negindex = numString.length - 1;
+            i < numString.length - 1, negindex > 1;
+            i++, negindex--
+          ) {
+            //Test for the digits are sequential, incementing†: 1234
+            if (Number(numString[i]) === Number(numString[i + 1] - 1)) {
+              flag.ascending = true;
+            } else if (Number(numString[i]) + 2 === Number(numString[i + 1] - 1)) {
+              flag.upcomingAscending = true;
+            }
+            //Test for the digits are sequential, decrementing‡: 4321
+      
+            if (Number(numString[negindex]) === Number(numString[negindex - 1] - 1)) {
+              flag.descending = true;
+            } else if (
+              //!check on the 2 mile warning here
+              Number(numString[negindex]) - 2 ===
+                Number(numString[negindex - 1] - 1) ||
+              //!check on the 2 mile warning here
+              Number(numString[negindex]) - 1 === Number(numString[negindex - 1] - 1)
+            ) {
+              flag.upcomingDescending = true;
+            }
+            //Test for the digits are a palindrome: 1221 or 73837
+            let forward = [];
+            let backward = [];
+            console.log("numstr.length",numString.length)
+            for (
+              let i = 0, j = numString.length;
+              i < numString.length, j > 0;
+              i++, j--
+            ) {
+              console.log("i:",i)
+              console.log("j:",j-1)
+              // console.log(numString[i])
+              // console.log(numString[j])
+              forward.push(numString[i]);
+              // backward.push(numString[j-1]);
+            }
+            let adjusted = forward;
+            if (adjusted)
+            console.log("forward:",forward)
+            console.log("backward:",backward)
+            let backwardOneMile = backward[backward.length - 1] + 1;
+            let backwardTwoMiles = backward[backward.length - 1] + 2;
+            console.log(backwardOneMile);
+            console.log(backwardTwoMiles);
+            if (numString[negindex] === numString[i]) {
+              if (forward.join("") === backward.join("")) flag.palindrome = true;
+              //!check on the 2 mile warning here
+            } else if (
+              forward[0] == backwardOneMile ||
+              forward[0] == backwardTwoMiles
+            ) {
+              flag.upcomingPalindrome = true;
+            } else if (numString[negindex] !== numString[i]) {
+              flag.palindrome = false;
+              break;
+            }
+          }
+      
+          if (flag.ascending === true || flag.descending === true) {
+            console.log("sequential");
+            console.log("flagup2: ", flag);
+            return 2;
+          }
+          if (flag.upcomingAscending === true || flag.upcomingDescending === true) {
+            console.log("warning sequential");
+            console.log("flagup1: ", flag);
+            return 1;
+          }
+      
+          if (flag.palindrome === true) {
+            console.log("palindrome");
+            console.log("flag: ", flag);
+            return 2;
+          } else if (flag.upcomingPalindrome === true) {
+            return 1;
+          } else {
+            console.log("not sequential");
+            return 0;
+          }
+          // }
+          // testForSequentialOrPalindrome();
     // Test for the digits match one of the values in the awesomePhrases array
     // function checkAwesomePhrases() {
-      for (let i = 0; i < awesomePhrases?.length; i++) {
-        if (awesomePhrases[i].toString() === numString) {
-          console.log("matched", awesomePhrases[i], "&", numString);
-          return 2;
-        } else if (
-          awesomePhrases[i] === number + 2 ||
-          awesomePhrases[i] === number + 1
-        ) {
-          console.log("2 mile warning", awesomePhrases[i], "&", numString);
-          return 1;
-        }
+    for (let i = 0; i < awesomePhrases?.length; i++) {
+      if (awesomePhrases[i].toString() === numString) {
+        console.log("matched", awesomePhrases[i], "&", numString);
+        return 2;
+      } else if (
+        awesomePhrases[i] === number + 2 ||
+        awesomePhrases[i] === number + 1
+      ) {
+        console.log("2 mile warning", awesomePhrases[i], "&", numString);
+        return 1;
       }
+    }
     // }
 
     // checkAwesomePhrases();
+    let shouldBeZero;
     // Test for Any digit followed by all zeros: 100, 90000
     // function testForAllFollowingZeroes() {
-      for (let i = 1; i < numString.length; i++) {
-        let shouldBeZero = +numString[i];
-        if (shouldBeZero === 0) {
-          return 2;
-        } else if (shouldBeZero + 2 === 0 || shouldBeZero + 1 === 0) {
-          return 1;
-        }
-        // return true;
-      }
+    for (let i = 1; i < numString.length; i++) {
+      shouldBeZero = +numString[i];
+      // return true;
+    }
+    if (shouldBeZero === 0) {
+      return 2;
+    } else if (shouldBeZero + 2 === 0 || shouldBeZero + 1 === 0) {
+      return 1;
+    }
     // }
 
     // testForAllFollowingZeroes();
     //Test for Every digit is the same number: 1111
 
+    let same;
     // function testForAllSame() {
-      for (let i = 0; i < numString.length - 1; i++) {
-        if (numString[i] === numString[i + 1]) {
-          console.log("the same");
-          return 2;
-        } else if (
-          (number[i] + 2).toString() === numString[i + 1] ||
-          (number[i] + 1).toString() === numString[i + 1]
-        ) {
-          console.log("two mile warning same");
-          return 1;
-        }
+    for (let i = 0; i < numString.length - 1; i++) {
+      if (numString[i] === numString[i + 1]) {
+        same = true;
+      } else if (
+        (number[i] + 2).toString() === numString[i + 1] ||
+        (number[i] + 1).toString() === numString[i + 1]
+      ) {
+        console.log("two mile warning same");
+        return 1;
       }
+      else {
+        same = false;
+      }
+    }
+    if (same === true) {
+      console.log("the same");
+      return 2;
+    }
+
     // }
 
     // testForAllSame();
-
-    // function testForSequentialOrPalindrome() {
-      let flag = {};
-      for (
-        let i = 0, negindex = numString.length - 1;
-        i < numString.length - 1, negindex > 1;
-        i++, negindex--
-      ) {
-        //Test for the digits are sequential, incementing†: 1234
-        if (Number(numString[i]) === Number(numString[i + 1] - 1)) {
-          flag.ascending = true;
-        } else if (Number(numString[i]) + 2 === Number(numString[i + 1] - 1)) {
-          flag.upcomingAscending = true;
-        }
-        //Test for the digits are sequential, decrementing‡: 4321
-
-        if (
-          Number(numString[negindex]) === Number(numString[negindex - 1] - 1)
-        ) {
-          flag.descending = true;
-        } else if (
-          //!check on the 2 mile warning here
-          Number(numString[negindex]) - 2 ===
-            Number(numString[negindex - 1] - 1) ||
-          //!check on the 2 mile warning here
-          Number(numString[negindex]) - 1 ===
-            Number(numString[negindex - 1] - 1)
-        ) {
-          flag.upcomingDescending = true;
-        }
-
-        //Test for the digits are a palindrome: 1221 or 73837
-
-        if (numString[negindex] === numString[i]) {
-          flag.palindrome = true;
-          //!check on the 2 mile warning here
-        } else if (
-          numString[negindex] - 2 === numString[i] ||
-          numString[negindex] - 1 === numString[i]
-        ) {
-          flag.upcomingPalindrome = true;
-        } else if (numString[negindex] !== numString[i]) {
-          flag.palindrome = false;
-          break;
-        }
-      }
-      if (flag.ascending === true || flag.descending === true) {
-        console.log("sequential");
-        return 2;
-      }
-      if (flag.upcomingAscending === true || flag.upcomingDescending === true) {
-        console.log("warning sequential");
-        return 1;
-      }
-
-      if (flag.palindrome === true) {
-        console.log("palindrome");
-        return 2;
-      } else if (flag.upcomingPalindrome === true) {
-        return 1;
-      } else {
-        console.log("not sequential");
-        return 0;
-      }
-    // }
-    // testForSequentialOrPalindrome();
     // return 0;
   } else {
     return 0;
@@ -184,6 +215,6 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 // isInteresting(3, [1337, 256], 0);
 // isInteresting(1336, [1337, 256], 1);
 // isInteresting(256, [1337, 256], 2);
-isInteresting(11208, [1337, 256], 0);
+// isInteresting(11208, [1337, 256], 0);
 isInteresting(11209, [1337, 256], 1);
 // isInteresting(11211, [1337, 256], 2);
