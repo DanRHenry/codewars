@@ -58,17 +58,18 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
     // function testForSequentialOrPalindrome() {
     let flag = {};
 
-    let shouldBeZero;
     // Test for Any digit followed by all zeros: 100, 90000
     function testForAllFollowingZeroes() {
       for (let i = 1; i < numString.length; i++) {
-        shouldBeZero = +numString[i];
-        // return true;
-      }
-      if (shouldBeZero === 0) {
-        return 2;
-      } else if (shouldBeZero + 2 === 0 || shouldBeZero + 1 === 0) {
-        return 1;
+        let currentValue = Number(numString[i]);
+        if (currentValue === 0) {
+          flag.trailingZeroes = 2;
+        } else if ((currentValue + 2 === 0) || (currentValue + 1 === 0)) {
+          flag.trailingZeroes = 1;
+        }
+        else {
+          flag.trailingZeroes = 0;
+        }
       }
     }
 
@@ -112,6 +113,8 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
       }
     }
 
+
+
     // for (let negindex = numString.length - 1; negindex >= 0; negindex--) {
     //   //Test for the digits are sequential, decrementing‡: 4321
     //   let ultimateNumber = Number(numString[numString.length - 1]);
@@ -140,18 +143,36 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
     // }
 
     //Test for the digits are a palindrome: 1221 or 73837
-    let forward = [];
-    let backward = [];
-    // console.log("numstr.length",numString.length)
-    // for (
-    //   let i = 0, j = numString.length;
-    //   i < numString.length, j > 0;
-    //   i++, j--
-    // ) {
+    let forward = "";
+    let backward = "";
+    for (
+      let i = 0, j = numString.length;
+      i < numString.length, j > 0;
+      i++, j--
+    ) {
+      forward += (numString[i]);
+      backward += (numString[j-1]);
+    }
+    if (forward === backward) {
+      flag.palindrome = true;
+      console.log("Palindrome Found")
+    }
 
-    //   forward.push(numString[i]);
-    //   // backward.push(numString[j-1]);
-    // }
+    // Check for upcoming palindromes
+    let ultimateNumber = forward[forward.length -1]
+    let penultimateNumber = forward[forward.length -2]
+
+    let firstNumber = forward[0];
+    let secondNumber = forward[1];
+
+    let firstTwoReversed = (secondNumber.toString()+firstNumber.toString())
+    let lastTwo = (Number(penultimateNumber * 10) + Number(ultimateNumber))
+    if (Number(firstTwoReversed) === lastTwo +1 || Number(firstTwoReversed) === lastTwo + 2) {
+      flag.upcomingPalindrome = true;
+      console.log("Upcoming Palindrome Found")
+    }
+
+    // console.log(forward, backward)
     let adjusted = forward;
     if (adjusted);
     // console.log("forward:",forward)
@@ -217,11 +238,9 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 
     // }
 
-    // testForAllFollowingZeroes();
     //Test for Every digit is the same number: 1111
-
     let same;
-    // function testForAllSame() {
+    function testForAllSame() {
     for (let i = 0; i < numString.length - 1; i++) {
       if (numString[i] === numString[i + 1]) {
         same = true;
@@ -240,7 +259,7 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
       return 2;
     }
 
-    // }
+    }
 
     // testForAllSame();
     // return 0;
@@ -260,4 +279,4 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 // isInteresting(256, [1337, 256], 2);
 // isInteresting(11208, [1337, 256], 0);
 // isInteresting(11209, [1337, 256], 1);
-isInteresting(11211, [1337, 256], 2);
+isInteresting(11209, [1337, 256], 2);
