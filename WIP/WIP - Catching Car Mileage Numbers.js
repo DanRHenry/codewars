@@ -69,8 +69,7 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
           }
           if (currentValue === 9 && previous != 0) {
             previous = 9;
-
-          } 
+          }
           // else if (currentValue === 9) {
           //   flag.testForAllFollowingZeroes = false;
 
@@ -91,42 +90,31 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
     }
 
     //Test for the incrementing: 1234
-    function incrementing() {
+    function testForIncrementing() {
       for (let i = 0; i < numString.length - 1; i++) {
+        let previous;
         let currentValue = Number(numString[i]);
         let nextValue = Number(numString[i + 1]);
-
-        // Check that the number matches the next one minus one
-        if (currentValue !== nextValue - 1) {
-          // Set the ascending flag value to false unless the currentValue is the last one or two indices
-          if (
-            i !== numString.length - 2 ||
-            (i !== numString.length - 1 && flag.ascending === true)
-          ) {
-            flag.ascending = false;
-            console.log(flag);
-            // break;
+        if (i < numString.length - 1) {
+          if (currentValue === nextValue - 1) {
+            previous = currentValue;
           }
-          // Do this if the current index is at the end of the string
-          if (numString.length - 2 === i) {
+          if (i >= numString.length - 2) {
             let penultimateNumber = Number(numString[numString.length - 2]);
             let ultimateNumber = Number(numString[numString.length - 1]);
             // look for upcoming ascending number
-            if (
-              (ultimateNumber === 9 || ultimateNumber === 8) &&
-              (ultimateNumber - penultimateNumber === 0 ||
-                ultimateNumber - penultimateNumber === -1)
+            if (penultimateNumber === ultimateNumber - 1) {
+              flag.ascending = true;
+              console.log("flag.ascending:",flag.ascending)
+            } else if (
+              penultimateNumber === ultimateNumber ||
+              penultimateNumber === ultimateNumber +1
             ) {
-              console.log("flag.ascending:", flag.ascending);
-              console.log("bleep");
-              console.log("flag.upcomingAscending = true");
               flag.upcomingAscending = true;
-              break;
-            }
+              console.log("flag.upcomingAscending:",flag.upcomingAscending)
+            } 
           }
-        } else {
-          flag.ascending = true;
-        }
+        } 
       }
     }
 
@@ -271,6 +259,8 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
     // testForTrailingZeroes();
 
     // testForAllSame();
+
+    testForIncrementing();
   }
 }
 // isInteresting(30000000, [1337, 256], 2);
@@ -281,6 +271,7 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 // isInteresting(10000099);
 // isInteresting(4324);
 // isInteresting(4321);
+isInteresting(1234);
 // isInteresting(3, [1337, 256], 0);
 // isInteresting(1336, [1337, 256], 1);
 // isInteresting(256, [1337, 256], 2);
