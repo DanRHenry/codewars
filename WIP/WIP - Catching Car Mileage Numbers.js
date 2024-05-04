@@ -61,15 +61,23 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
     // Test for Any digit followed by all zeros: 100, 90000
     function testForTrailingZeroes() {
       let previous;
-      for (let i = 1; i < numString.length; i++) {
+      for (let i = 2; i < numString.length; i++) {
+        let comparativeValue = Number(numString[1]);
+        if (comparativeValue === 0 || comparativeValue === 9) {
         let currentValue = Number(numString[i]);
         if (i != numString.length - 1) {
-          if (currentValue === 0) {
-            previous = 0;
+          // if (currentValue === ) {
+          //   previous = 0;
+          // }
+          if (currentValue === comparativeValue) {
+            previous = comparativeValue;
+          } else {
+            console.log("here")
+            break;
           }
-          if (currentValue === 9 && previous != 0) {
-            previous = 9;
-          }
+          // if (currentValue === comparativeValue && previous === comparativeValue) {
+          //   previous = comparativeValue;
+          // }
           // else if (currentValue === 9) {
           //   flag.testForAllFollowingZeroes = false;
 
@@ -81,6 +89,8 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
           flag.trailingZeroes = true;
         }
       }
+
+    }
       if (flag.trailingZeroes === true) {
         console.log("all trailing zeroes true");
       }
@@ -96,10 +106,10 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
         let currentValue = Number(numString[i]);
         let nextValue = Number(numString[i + 1]);
         if (i < numString.length - 1) {
+          // check that all previous values are incrementing
           if (currentValue === nextValue - 1) {
             previous = currentValue;
-          }
-          if (i >= numString.length - 2) {
+          } else if (i >= numString.length - 2) {
             let penultimateNumber = Number(numString[numString.length - 2]);
             let ultimateNumber = Number(numString[numString.length - 1]);
             // look for upcoming ascending number
@@ -113,38 +123,12 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
               flag.upcomingAscending = true;
               console.log("flag.upcomingAscending:", flag.upcomingAscending);
             }
+          } else {
+            break;
           }
         }
       }
     }
-
-    // function testForDecrementing() {
-    //   for (let i = 0; i < numString.length - 1; i++) {
-    //     let previous;
-    //     let currentValue = Number(numString[i]);
-    //     let nextValue = Number(numString[i + 1]);
-    //     if (i < numString.length - 1) {
-    //       if (currentValue === nextValue - 1) {
-    //         previous = currentValue;
-    //       }
-    //       if (i >= numString.length - 2) {
-    //         let penultimateNumber = Number(numString[numString.length - 2]);
-    //         let ultimateNumber = Number(numString[numString.length - 1]);
-    //         // look for upcoming ascending number
-    //         if (penultimateNumber === ultimateNumber - 1) {
-    //           flag.ascending = true;
-    //           console.log("flag.ascending:", flag.ascending);
-    //         } else if (
-    //           penultimateNumber === ultimateNumber ||
-    //           penultimateNumber === ultimateNumber + 1
-    //         ) {
-    //           flag.upcomingAscending = true;
-    //           console.log("flag.upcomingAscending:", flag.upcomingAscending);
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
 
     function testForDecrementing() {
       for (let i = 0; i < numString.length - 1; i++) {
@@ -152,57 +136,37 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
         let previous;
         let currentValue = Number(numString[i]);
         let nextValue = Number(numString[i + 1]);
-        let ultimateNumber = Number(numString[numString.length - 1]);
-        let penultimateNumber = Number(numString[numString.length - 2]);
-        if (i < numString.length - 1) {
-          console.log("currentValue:", currentValue)
-          if (currentValue === nextValue +1) {
-            previous = currentValue;
-            console.log(currentValue)
-          }
-          else {
-            console.log("helllloooo?")
-          }
 
-          if ( i>= numString.length -2 && previous === currentValue) {
-            console.log("previous:",previous)
-            console.log("current:",currentValue)
-            console.log("next:",nextValue)
-          if (penultimateNumber - 1 === ultimateNumber) {
-            flag.descending = true;
-            console.log("here")
-            console.log("descending is true");
-          } else {
-            let antepenultimateNumber = Number(numString[numString.length - 3])
-            console.log("antepenultimateNumber", antepenultimateNumber)
-            console.log("penultimateNumber:",penultimateNumber);
-            console.log("ultimateNumber:",ultimateNumber)
-            console.log(penultimateNumber - ultimateNumber)
-            // if (penultimateNumber)
-            if ((penultimateNumber - ultimateNumber) >=0) {
-              console.log("penultimate - ultimate:", (penultimateNumber - ultimateNumber))
-            } else {
-              console.log("antepenultimatenumber + penultimatenumber - ultimate", Number(antepenultimateNumber.toString() + penultimateNumber.toString()) - ultimateNumber)
-            }
-            if (
-              penultimateNumber - ultimateNumber === 0 ||
-              penultimateNumber - ultimateNumber === 2
+        // console.log("current:", currentValue, "next", nextValue);
+        if (i < numString.length - 1) {
+          if (currentValue === nextValue + 1) {
+            previous = currentValue;
+            // } else if (i >= numString.length - 2 && previous === currentValue) {
+          } else if (i >= numString.length - 2) {
+            let penultimateNumber = Number(numString[numString.length - 2]);
+            let ultimateNumber = Number(numString[numString.length - 1]);
+            let finalTwo = Number(
+              numString[numString.length - 2] + numString[numString.length - 1]
+            );
+            // console.log(finalTwo);
+            let finalNumPOne = Number((finalTwo + 2).toString()[1]);
+            let finalNumPTwo = Number((finalTwo + 3).toString()[1]);
+            // console.log(finalNumPOne);
+            // console.log(finalNumPTwo);
+            if (penultimateNumber === ultimateNumber + 1) {
+              flag.descending = true;
+              console.log("descending is true");
+            } else if (
+              penultimateNumber === finalNumPOne ||
+              penultimateNumber === finalNumPTwo
             ) {
-              console.log("flag.upcomingDescending = true");
-              flag.upcomingDescending = true;
+              flag.upcomingAscending = true;
+              console.log("flag.upcomingDescending:", flag.upcomingDescending);
+            } else {
+              break;
             }
           }
         }
-        }
-        // else if (
-        // //   //!check on the 2 mile warning here
-        //   Number(numString[negindex]) - 2 ===
-        //     Number(numString[negindex - 1] - 1) ||
-        // //   //!check on the 2 mile warning here
-        //   Number(numString[negindex]) - 1 === Number(numString[negindex - 1] - 1)
-        // ) {
-        //   flag.upcomingDescending = true;
-        // }
       }
     }
 
@@ -295,29 +259,32 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
       }
     }
 
-    // checkAwesomePhrases();
 
-    // testForTrailingZeroes();
+    testForTrailingZeroes(); // 30000099 is returning true
 
-    // testForAllSame();
+    // testForIncrementing(); // 1234 not working, but 2232 is, and can help trailingzeroes
 
-    // testForIncrementing();
+    // testForDecrementing();
 
-    testForDecrementing();
+    // searchForPalindromes(); // Seems to be fully working
+
+    // checkAwesomePhrases(); // Might be Broken, or might not be console logging
+
+    // testForAllSame(); // Upcoming test is not working, might be returning and not logging.
   }
 }
-// isInteresting(30000000, [1337, 256], 2);
+// isInteresting(30000099, [1337, 256], 2);
+// isInteresting(2232);
+// isInteresting(21509, [1337, 256], 1);
+// isInteresting(11211, [1337, 256], 2);
 // isInteresting(1000000000000);
 // isInteresting(99999999999999);
 // isInteresting(111111110, [1337, 256]);
 // isInteresting(4321);
-// isInteresting(10000099);
+isInteresting(10000000);
 // isInteresting(4324);
-// isInteresting(4321);
-isInteresting(4320);
+// isInteresting(4319);
 // isInteresting(3, [1337, 256], 0);
 // isInteresting(1336, [1337, 256], 1);
 // isInteresting(256, [1337, 256], 2);
 // isInteresting(11208, [1337, 256], 0);
-// isInteresting(11209, [1337, 256], 1);
-// isInteresting(11211, [1337, 256], 2);
