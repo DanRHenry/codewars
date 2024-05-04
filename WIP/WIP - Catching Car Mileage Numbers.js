@@ -105,45 +105,106 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
             // look for upcoming ascending number
             if (penultimateNumber === ultimateNumber - 1) {
               flag.ascending = true;
-              console.log("flag.ascending:",flag.ascending)
+              console.log("flag.ascending:", flag.ascending);
             } else if (
               penultimateNumber === ultimateNumber ||
-              penultimateNumber === ultimateNumber +1
+              penultimateNumber === ultimateNumber + 1
             ) {
               flag.upcomingAscending = true;
-              console.log("flag.upcomingAscending:",flag.upcomingAscending)
-            } 
+              console.log("flag.upcomingAscending:", flag.upcomingAscending);
+            }
           }
-        } 
+        }
       }
     }
 
-    // for (let negindex = numString.length - 1; negindex >= 0; negindex--) {
-    //   //Test for the digits are sequential, decrementing‡: 4321
-    //   let ultimateNumber = Number(numString[numString.length - 1]);
-    //   let penultimateNumber = Number(numString[numString.length - 2]);
-    //   if (penultimateNumber - 1 === ultimateNumber) {
-    //     flag.descending = true;
-    //     console.log("descending is true");
-    //   } else {
-    //     if (
-    //       penultimateNumber - ultimateNumber === -1 ||
-    //       penultimateNumber - ultimateNumber === 0
-    //     ) {
-    //       console.log("flag.upcomingDescending = true");
-    //       flag.upcomingDescending = true;
+    // function testForDecrementing() {
+    //   for (let i = 0; i < numString.length - 1; i++) {
+    //     let previous;
+    //     let currentValue = Number(numString[i]);
+    //     let nextValue = Number(numString[i + 1]);
+    //     if (i < numString.length - 1) {
+    //       if (currentValue === nextValue - 1) {
+    //         previous = currentValue;
+    //       }
+    //       if (i >= numString.length - 2) {
+    //         let penultimateNumber = Number(numString[numString.length - 2]);
+    //         let ultimateNumber = Number(numString[numString.length - 1]);
+    //         // look for upcoming ascending number
+    //         if (penultimateNumber === ultimateNumber - 1) {
+    //           flag.ascending = true;
+    //           console.log("flag.ascending:", flag.ascending);
+    //         } else if (
+    //           penultimateNumber === ultimateNumber ||
+    //           penultimateNumber === ultimateNumber + 1
+    //         ) {
+    //           flag.upcomingAscending = true;
+    //           console.log("flag.upcomingAscending:", flag.upcomingAscending);
+    //         }
+    //       }
     //     }
     //   }
-    //   // else if (
-    //   // //   //!check on the 2 mile warning here
-    //   //   Number(numString[negindex]) - 2 ===
-    //   //     Number(numString[negindex - 1] - 1) ||
-    //   // //   //!check on the 2 mile warning here
-    //   //   Number(numString[negindex]) - 1 === Number(numString[negindex - 1] - 1)
-    //   // ) {
-    //   //   flag.upcomingDescending = true;
-    //   // }
     // }
+
+    function testForDecrementing() {
+      for (let i = 0; i < numString.length - 1; i++) {
+        //Test for the digits are sequential, decrementing‡: 4321
+        let previous;
+        let currentValue = Number(numString[i]);
+        let nextValue = Number(numString[i + 1]);
+        let ultimateNumber = Number(numString[numString.length - 1]);
+        let penultimateNumber = Number(numString[numString.length - 2]);
+        if (i < numString.length - 1) {
+          console.log("currentValue:", currentValue)
+          if (currentValue === nextValue +1) {
+            previous = currentValue;
+            console.log(currentValue)
+          }
+          else {
+            console.log("helllloooo?")
+          }
+
+          if ( i>= numString.length -2 && previous === currentValue) {
+            console.log("previous:",previous)
+            console.log("current:",currentValue)
+            console.log("next:",nextValue)
+          if (penultimateNumber - 1 === ultimateNumber) {
+            flag.descending = true;
+            console.log("here")
+            console.log("descending is true");
+          } else {
+            let antepenultimateNumber = Number(numString[numString.length - 3])
+            console.log("antepenultimateNumber", antepenultimateNumber)
+            console.log("penultimateNumber:",penultimateNumber);
+            console.log("ultimateNumber:",ultimateNumber)
+            console.log(penultimateNumber - ultimateNumber)
+            // if (penultimateNumber)
+            if ((penultimateNumber - ultimateNumber) >=0) {
+              console.log("penultimate - ultimate:", (penultimateNumber - ultimateNumber))
+            } else {
+              console.log("antepenultimatenumber + penultimatenumber - ultimate", Number(antepenultimateNumber.toString() + penultimateNumber.toString()) - ultimateNumber)
+            }
+            if (
+              penultimateNumber - ultimateNumber === 0 ||
+              penultimateNumber - ultimateNumber === 2
+            ) {
+              console.log("flag.upcomingDescending = true");
+              flag.upcomingDescending = true;
+            }
+          }
+        }
+        }
+        // else if (
+        // //   //!check on the 2 mile warning here
+        //   Number(numString[negindex]) - 2 ===
+        //     Number(numString[negindex - 1] - 1) ||
+        // //   //!check on the 2 mile warning here
+        //   Number(numString[negindex]) - 1 === Number(numString[negindex - 1] - 1)
+        // ) {
+        //   flag.upcomingDescending = true;
+        // }
+      }
+    }
 
     function searchForPalindromes() {
       //Test for the digits are a palindrome: 1221 or 73837
@@ -180,27 +241,6 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
       }
     }
 
-    if (flag.ascending === true || flag.descending === true) {
-      console.log("sequential");
-      console.log("flagup2: ", flag);
-      return 2;
-    }
-    if (flag.upcomingAscending === true || flag.upcomingDescending === true) {
-      // console.log("warning sequential");
-      // console.log("flagup1: ", flag);
-      return 1;
-      // }
-
-      // if (flag.palindrome === true) {
-      //   console.log("palindrome");
-      //   console.log("flag: ", flag);
-      //   return 2;
-      // } else if (flag.upcomingPalindrome === true) {
-      //   return 1;
-    } else {
-      console.log("not sequential");
-      // return 0;
-    }
     // }
 
     // Test for the digits match one of the values in the awesomePhrases array
@@ -218,8 +258,6 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
         }
       }
     }
-
-    // checkAwesomePhrases();
 
     // }
 
@@ -256,11 +294,16 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
         console.log("return 2");
       }
     }
+
+    // checkAwesomePhrases();
+
     // testForTrailingZeroes();
 
     // testForAllSame();
 
-    testForIncrementing();
+    // testForIncrementing();
+
+    testForDecrementing();
   }
 }
 // isInteresting(30000000, [1337, 256], 2);
@@ -271,7 +314,7 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 // isInteresting(10000099);
 // isInteresting(4324);
 // isInteresting(4321);
-isInteresting(1234);
+isInteresting(4320);
 // isInteresting(3, [1337, 256], 0);
 // isInteresting(1336, [1337, 256], 1);
 // isInteresting(256, [1337, 256], 2);
