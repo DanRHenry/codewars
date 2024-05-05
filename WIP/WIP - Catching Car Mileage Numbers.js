@@ -54,7 +54,7 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 
 */ let numString = number.toString();
   let flag = {};
-  if (numString.length >= 3 || numString === "99" || numString === "98") {
+  if (numString.length > 3) {
     // Test for Any digit followed by all zeros: 100, 90000
     function testForTrailingZeroes() {
       let previous;
@@ -347,6 +347,14 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 
     testForAllSame(); // Seems to be fully working
   }
+  else if (numString === "99" || numString === "98") {
+      flag.upcomingTrailingZeroes = 1
+    } else if (Number(numString[numString.length-2] + numString[numString.length -1]) + 1 === 100 || Number(numString[numString.length-2] + numString[numString.length -1]) + 2 === 100) {
+      flag.upcomingTrailingZeroes = 1
+    }else if (numString[numString.length-2] + numString[numString.length -1] === "00") {
+      flag.trailingZeroes = 2
+    // }
+  } 
   console.log(flag);
   let flagArray = Object.values(flag);
   console.log("flagArray: ", flagArray);
@@ -363,7 +371,7 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
   // for ()
 }
 
-isInteresting(100, [1337, 256]), 2; //should handle big numbers
+// isInteresting(300, [1337, 256]), 2; //should handle big numbers
 // isInteresting(67890, [1337, 256]), 2; //should handle incrementing sequences
 // isInteresting(119, [1337, 256]), 1; //should handle upcoming palindromic numbers
 // isInteresting(67888, [1337, 256]), 1; //should handle upcoming incrementing sequences
