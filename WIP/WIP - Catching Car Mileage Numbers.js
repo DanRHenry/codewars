@@ -101,14 +101,36 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
         let previous;
         let currentValue = Number(numString[i]);
         let nextValue = Number(numString[i + 1]);
+        let penultimateNumber = Number(numString[numString.length - 2]);
+        let ultimateNumber = Number(numString[numString.length - 1]);
+
         if (i < numString.length - 1) {
           // check that all previous values are incrementing
           if (currentValue === nextValue - 1 && i < numString.length - 2) {
             previous = currentValue;
+
+            console.log(
+              "prev",
+              previous,
+              "penul",
+              penultimateNumber,
+              "ult",
+              ultimateNumber
+            );
+            if (
+              (penultimateNumber === previous + 1 && ultimateNumber === 8) ||
+              (penultimateNumber === previous + 1 && ultimateNumber === 9)
+            ) {
+              flag.ascending = 1;
+              console.log(flag.ascending);
+            }
           } else if (i >= numString.length - 2) {
-            let penultimateNumber = Number(numString[numString.length - 2]);
-            let ultimateNumber = Number(numString[numString.length - 1]);
             // look for upcoming ascending number
+            if (penultimateNumber === 9 && ultimateNumber === 0) {
+              flag.ascending = 2;
+              console.log("flag.ascending:", flag.ascending);
+            }
+
             if (penultimateNumber === ultimateNumber - 1) {
               flag.ascending = 2;
               console.log("flag.ascending:", flag.ascending);
@@ -210,7 +232,6 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
         }
       }
     }
-
     function searchForPalindromes() {
       //Test for the digits are a palindrome: 1221 or 73837
       let forward = "";
@@ -347,33 +368,97 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 
     testForAllSame(); // Seems to be fully working
   }
+  // Edge case fixes
+
+  //? Trailing Zeroes
   else if (numString === "99" || numString === "98") {
-      flag.upcomingTrailingZeroes = 1
-    } else if (Number(numString[numString.length-2] + numString[numString.length -1]) + 1 === 100 || Number(numString[numString.length-2] + numString[numString.length -1]) + 2 === 100) {
-      flag.upcomingTrailingZeroes = 1
-    }else if (numString[numString.length-2] + numString[numString.length -1] === "00") {
-      flag.trailingZeroes = 2
-    // }
-  } 
-  console.log(flag);
-  let flagArray = Object.values(flag);
-  console.log("flagArray: ", flagArray);
-  if (flagArray.includes(2)) {
-    console.log("2");
-    return 2;
-  } else if (flagArray.includes(1)) {
-    console.log("1");
-    return 1;
-  } else {
-    console.log(0);
-    return 0;
+    flag.upcomingTrailingZeroes = 1;
+  } else if (
+    Number(numString[numString.length - 2] + numString[numString.length - 1]) +
+      1 ===
+      100 ||
+    Number(numString[numString.length - 2] + numString[numString.length - 1]) +
+      2 ===
+      100
+  ) {
+    flag.upcomingTrailingZeroes = 1;
+  } else if (
+    numString[numString.length - 2] + numString[numString.length - 1] ===
+    "00"
+  ) {
+    flag.trailingZeroes = 2;
   }
-  // for ()
+
+  // //? Palindromes
+
+  if (numString.length === 3) {
+    let finalTwo = (numString[1] + numString[2]);
+    // console.log("finalTwo", finalTwo);
+    // console.log("Number(numString[0])",Number(numString[0]))
+    // console.log("here",(+finalTwo+1))
+    let firstNumber = numString[0]
+    console.log("finalTwo",typeof finalTwo)
+    console.log("here",(finalTwo).toString()[finalTwo.toString().length -1])
+    if (
+      firstNumber === Number(finalTwo + 1).toString()[finalTwo.toString().length -1] ||
+      firstNumber === Number(finalTwo + 2).toString()[finalTwo.toString().length -1]
+    ) {
+      flag.upcomingPalindrome = 1;
+      console.log("flag.upcomingPalindrome", flag.upcomingPalindrome);
+    } else if (
+      numString[0] === finalTwo[finalTwo.toString().length -1]
+    ) {
+      flag.palindrome = 2;
+      console.log("flag.palindrome", flag.palindrome);
+    }
+  }
+
+  //? Ascending
+  if (numString.length === 3) {
+    let finalTwo = Number(numString[1] + numString[2]);
+    let finalCheck = Number(
+      (+numString[0] + 1).toString() + (+numString[0] + 2).toString()
+    );
+    // console.log("finalTwo", finalTwo);
+    // console.log("finalCheck:", finalCheck);
+    if (numString === "890") {
+      flag.ascending = 2;
+      console.log(flag.ascending);
+    } else if (numString === "889" || numString === "887") {
+      flag.upcomingAscending = 1;
+      console.log("flag.upcomingAscending", flag.upcomingAscending);
+    } else if (Number(+numString[0] + 1) === Number(numString[1])) {
+      if (finalTwo === finalCheck) {
+        flag.ascending = 2;
+        console.log("flag.ascending:", flag.ascending);
+      } else if (finalCheck === finalTwo + 1 || finalCheck === finalTwo + 2) {
+        flag.upcomingAscending = 1;
+        console.log("flag.upcomingAscending:", flag.upcomingAscending);
+      }
+    }
+  }
+  function processFlagObject() {
+    console.log(flag);
+    let flagArray = Object.values(flag);
+    console.log("flagArray: ", flagArray);
+
+    if (flagArray.includes(2)) {
+      console.log("2");
+      return 2;
+    } else if (flagArray.includes(1)) {
+      console.log("1");
+      return 1;
+    } else {
+      console.log(0);
+      return 0;
+    }
+  }
+  processFlagObject();
 }
 
-// isInteresting(300, [1337, 256]), 2; //should handle big numbers
-// isInteresting(67890, [1337, 256]), 2; //should handle incrementing sequences
-// isInteresting(119, [1337, 256]), 1; //should handle upcoming palindromic numbers
-// isInteresting(67888, [1337, 256]), 1; //should handle upcoming incrementing sequences
-// isInteresting(98, [1337, 256]), 1; //should handle upcoming big numbers
-
+// isInteresting(256, [1337, 256]), 2; //should handle awesome phrases
+// isInteresting(886, [1337, 256]), 2; //should handle awesome phrases
+isInteresting(100, [1337, 256]), 2; //should handle palindromic numbers numbers
+// isInteresting(654, [1337, 256]), 2; //should handle decrementing sequences
+// isInteresting(255, [1337, 256]), 1; //should handle upcoming awesome phrases
+// isInteresting(890, [1337, 256]), 1; //should handle upcoming incrementing sequences
