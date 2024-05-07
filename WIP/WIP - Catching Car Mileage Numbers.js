@@ -54,6 +54,22 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 
 */ let numString = number.toString();
   let flag = {};
+  function processFlagObject() {
+    console.log(flag);
+    let flagArray = Object.values(flag);
+    console.log("flagArray: ", flagArray);
+
+    if (flagArray.includes(2)) {
+      console.log("2");
+      return 2;
+    } else if (flagArray.includes(1)) {
+      console.log("1");
+      return 1;
+    } else {
+      console.log("end", 0);
+      return 0;
+    }
+  }
   if (numString.length > 3) {
     // Test for Any digit followed by all zeros: 100, 90000
     function testForTrailingZeroes() {
@@ -367,6 +383,7 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
     checkAwesomePhrases(); // Seems to be fully working
 
     testForAllSame(); // Seems to be fully working
+    processFlagObject();
   }
   // Edge case fixes
 
@@ -387,78 +404,106 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
     "00"
   ) {
     flag.trailingZeroes = 2;
-  }
 
-  // //? Palindromes
+    // //? Palindromes
 
-  if (numString.length === 3) {
-    let finalTwo = (numString[1] + numString[2]);
-    // console.log("finalTwo", finalTwo);
-    // console.log("Number(numString[0])",Number(numString[0]))
-    // console.log("here",(+finalTwo+1))
-    let firstNumber = numString[0]
-    console.log("finalTwo",typeof finalTwo)
-    console.log("here",(finalTwo).toString()[finalTwo.toString().length -1])
-    if (
-      firstNumber === Number(finalTwo + 1).toString()[finalTwo.toString().length -1] ||
-      firstNumber === Number(finalTwo + 2).toString()[finalTwo.toString().length -1]
-    ) {
-      flag.upcomingPalindrome = 1;
-      console.log("flag.upcomingPalindrome", flag.upcomingPalindrome);
-    } else if (
-      numString[0] === finalTwo[finalTwo.toString().length -1]
-    ) {
-      flag.palindrome = 2;
-      console.log("flag.palindrome", flag.palindrome);
-    }
-  }
-
-  //? Ascending
-  if (numString.length === 3) {
-    let finalTwo = Number(numString[1] + numString[2]);
-    let finalCheck = Number(
-      (+numString[0] + 1).toString() + (+numString[0] + 2).toString()
-    );
-    // console.log("finalTwo", finalTwo);
-    // console.log("finalCheck:", finalCheck);
-    if (numString === "890") {
-      flag.ascending = 2;
-      console.log(flag.ascending);
-    } else if (numString === "889" || numString === "887") {
-      flag.upcomingAscending = 1;
-      console.log("flag.upcomingAscending", flag.upcomingAscending);
-    } else if (Number(+numString[0] + 1) === Number(numString[1])) {
-      if (finalTwo === finalCheck) {
-        flag.ascending = 2;
-        console.log("flag.ascending:", flag.ascending);
-      } else if (finalCheck === finalTwo + 1 || finalCheck === finalTwo + 2) {
-        flag.upcomingAscending = 1;
-        console.log("flag.upcomingAscending:", flag.upcomingAscending);
+    if (numString.length === 3) {
+      let finalTwo = numString[1] + numString[2];
+      // console.log("finalTwo", finalTwo);
+      // console.log("Number(numString[0])",Number(numString[0]))
+      // console.log("here",(+finalTwo+1))
+      let firstNumber = numString[0];
+      console.log("finalTwo", typeof finalTwo);
+      console.log("here", finalTwo.toString()[finalTwo.toString().length - 1]);
+      if (
+        firstNumber ===
+          Number(finalTwo + 1).toString()[finalTwo.toString().length - 1] ||
+        firstNumber ===
+          Number(finalTwo + 2).toString()[finalTwo.toString().length - 1]
+      ) {
+        flag.upcomingPalindrome = 1;
+        console.log("flag.upcomingPalindrome", flag.upcomingPalindrome);
+      } else if (numString[0] === finalTwo[finalTwo.toString().length - 1]) {
+        flag.palindrome = 2;
+        console.log("flag.palindrome", flag.palindrome);
       }
     }
-  }
-  function processFlagObject() {
-    console.log(flag);
-    let flagArray = Object.values(flag);
-    console.log("flagArray: ", flagArray);
 
-    if (flagArray.includes(2)) {
-      console.log("2");
-      return 2;
-    } else if (flagArray.includes(1)) {
-      console.log("1");
-      return 1;
-    } else {
-      console.log(0);
-      return 0;
+    //? Ascending
+    if (numString.length === 3) {
+      let finalTwo = Number(numString[1] + numString[2]);
+      let finalCheck = Number(
+        (+numString[0] + 1).toString() + (+numString[0] + 2).toString()
+      );
+      // console.log("finalTwo", finalTwo);
+      // console.log("finalCheck:", finalCheck);
+      if (numString === "890") {
+        flag.ascending = 2;
+        console.log(flag.ascending);
+      } else if (numString === "889" || numString === "887") {
+        flag.upcomingAscending = 1;
+        console.log("flag.upcomingAscending", flag.upcomingAscending);
+      } else if (Number(+numString[0] + 1) === Number(numString[1])) {
+        if (finalTwo === finalCheck) {
+          flag.ascending = 2;
+          console.log("flag.ascending:", flag.ascending);
+        } else if (finalCheck === finalTwo + 1 || finalCheck === finalTwo + 2) {
+          flag.upcomingAscending = 1;
+          console.log("flag.upcomingAscending:", flag.upcomingAscending);
+        }
+      }
     }
+
+    //? Descending
+    if (numString.length === 3) {
+      let finalTwo =
+        numString[numString.length - 2].toString() +
+        numString[numString.length - 1].toString();
+      let check = numString[0] + (Number(numString[0]) - 1).toString();
+      console.log("check:", check);
+      if (
+        +finalTwo[0] === +numString[0] - 1 &&
+        +finalTwo[1] === +numString[1] - 1
+      ) {
+        console.log("flag.descending = 2");
+        flag.descending = 2;
+      } else if (
+        +finalTwo + 1 === Number(check[1] + Number(check[1] - 1).toString()) ||
+        +finalTwo + 2 === Number(check[1] + Number(check[1] - 1).toString())
+      ) {
+        flag.upcomingDescending = 1;
+        console.log("flag.upcomingDescending = 1");
+      }
+    }
+
+    //? AwesomePhrases
+    if (numString.length === 3) {
+      if (awesomePhrases) {
+        for (let i = 0; i < awesomePhrases.length; i++) {
+          if (numString === awesomePhrases[i].toString()) {
+            console.log("flag.awesomePhrases = 2");
+            flag.awesomePhrases = 2;
+          } else if (
+            numString === (awesomePhrases[i] - 1).toString() ||
+            numString === (awesomePhrases[i] - 2).toString()
+          ) {
+            flag.awesomePhrases = 1;
+            console.log("flag.awesomePhrases = 1");
+          }
+        }
+      }
+    }
+
+
+    processFlagObject();
+  } else {
+    return 0;
   }
-  processFlagObject();
 }
 
-// isInteresting(256, [1337, 256]), 2; //should handle awesome phrases
-// isInteresting(886, [1337, 256]), 2; //should handle awesome phrases
-isInteresting(100, [1337, 256]), 2; //should handle palindromic numbers numbers
-// isInteresting(654, [1337, 256]), 2; //should handle decrementing sequences
+// isInteresting(3, [1337, 256]), 2; //should handle awesome phrases
+isInteresting(1336, [1337, 256]), 2; //should handle awesome phrases
+// isInteresting(100, [1337, 256]), 2; //should handle palindromic numbers numbers
+// isInteresting(653, [1337, 256]), 2; //should handle decrementing sequences
 // isInteresting(255, [1337, 256]), 1; //should handle upcoming awesome phrases
 // isInteresting(890, [1337, 256]), 1; //should handle upcoming incrementing sequences
