@@ -45,6 +45,7 @@ You should only ever output 0, 1, or 2.
 
 function isInteresting(number, awesomePhrases) {
   console.log(number);
+
   /* 
 "Interesting" Numbers
 Interesting numbers are 3-or-more digit numbers that meet one or more of the following criteria:
@@ -52,24 +53,10 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
 † For incrementing sequences, 0 should come after 9, and not before 1, as in 7890.
 ‡ For decrementing sequences, 0 should come after 1, and not before 9, as in 3210.
 
-*/ let numString = number.toString();
+*/
+  let numString = number.toString(); ////
   let flag = {};
-  function processFlagObject() {
-    console.log(flag);
-    let flagArray = Object.values(flag);
-    console.log("flagArray: ", flagArray);
 
-    if (flagArray.includes(2)) {
-      console.log("2");
-      return 2;
-    } else if (flagArray.includes(1)) {
-      console.log("1");
-      return 1;
-    } else {
-      console.log("end", 0);
-      return 0;
-    }
-  }
   if (numString.length > 3) {
     // Test for Any digit followed by all zeros: 100, 90000
     function testForTrailingZeroes() {
@@ -385,11 +372,13 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
     testForAllSame(); // Seems to be fully working
     processFlagObject();
   }
+
   // Edge case fixes
 
   //? Trailing Zeroes
   else if (numString === "99" || numString === "98") {
     flag.upcomingTrailingZeroes = 1;
+
   } else if (
     Number(numString[numString.length - 2] + numString[numString.length - 1]) +
       1 ===
@@ -494,16 +483,33 @@ Interesting numbers are 3-or-more digit numbers that meet one or more of the fol
       }
     }
 
-
     processFlagObject();
   } else {
+    console.log("returning 0");
     return 0;
+  }
+  function processFlagObject() {
+    console.log(flag);
+    let flagArray = Object.values(flag);
+    console.log("flagArray: ", flagArray);
+
+    if (flagArray.includes(2)) {
+      console.log("2");
+      return 2;
+    } else if (flagArray.includes(1)) {
+      console.log("1");
+      return 1;
+    } else {
+      console.log("end", 0);
+      console.log("0");
+      return 0;
+    }
   }
 }
 
-// isInteresting(3, [1337, 256]), 2; //should handle awesome phrases
-isInteresting(1336, [1337, 256]), 2; //should handle awesome phrases
+// isInteresting(3, [1337, 256]), 2; //should hand le awesome phrases
+// isInteresting(1337, [1337, 256]), 2; //should handle awesome phrases
 // isInteresting(100, [1337, 256]), 2; //should handle palindromic numbers numbers
-// isInteresting(653, [1337, 256]), 2; //should handle decrementing sequences
+isInteresting(653, [1337, 256]), 2; //should handle decrementing sequences
 // isInteresting(255, [1337, 256]), 1; //should handle upcoming awesome phrases
 // isInteresting(890, [1337, 256]), 1; //should handle upcoming incrementing sequences
